@@ -33,7 +33,7 @@ def send_all(msg):
         client.put(msg)
 
 def send_all_json(obj):
-    send_all(json.dump(obj))
+    send_all(json.dumps(obj))
 
 # Taken from https://github.com/abramhindle/WebSocketsExamples/blob/master/chat.py
 class Client:
@@ -42,7 +42,7 @@ class Client:
         self.queue = queue.Queue()
 
     def put(self, v):
-        self.queue.put.nowait(v)
+        self.queue.put_nowait(v)
 
     def get(self):
         return self.queue.get()

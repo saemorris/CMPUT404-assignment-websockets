@@ -39,7 +39,7 @@ var socket;
 var happy = new Image();
 happy.src = 'happy-face.png';
 var sad = new Image();
-sad = 'sad-face.png';
+sad.src = 'sad-face.png';
 var sick = new Image();
 sick.src = 'sick-face.png';
 
@@ -60,13 +60,14 @@ function drawCircle(context,entity) {
         var y = entity["y"];
         //moveTo(x,y);
 
-        var image = entity['happy'];
+        var image = entity['image'];
+        console.log(image)
 
         if (image == 'happy') {
             context.drawImage(happy, x, y, 50, 50);
-        } else if (immages == 'sad') {
+        } else if (image == 'sad') {
             context.drawImage(sad, x, y, 50, 50);
-        } else fi (image == 'sick') {
+        } else if (image == 'sick') {
             context.drawImage(sick, x, y, 50, 50);
         } else {
             beginPath()
@@ -144,8 +145,9 @@ function addEntity(entity, data) {
     world[entity] = data;
     //drawNextFrame(); // (but should we?)
     //XXX: Send a XHTML Request that updates the entity you just modified!
+    drawNextFrame();
     var message = {}
-    message[entitiy] = data;
+    message[entity] = data;
     socket.send(JSON.stringify(message));
     drawNextFrame();
 }
@@ -258,7 +260,7 @@ mouse.mousedowners.push(function(x,y,clicked,e) {
 });
 
 mouse.mouseuppers.push(function(x,y,clicked,e) {
-    addEntityWithoutName({'x':x,'y':y,'image':sad'});
+    addEntityWithoutName({'x':x,'y':y,'image':'sad'});
 });
 
 mouse.mousedraggers.push(function(x,y,clicked,e) {
@@ -293,8 +295,8 @@ function wsSetup() {
 
             var json = JSON.parse(msg.data);
 
-            for (war entitiy in json) {
-                world[entitiy] = json[entitiy];
+            for (entity in json) {
+                world[entity] = json[entity];
             }
 
             drawNextFrame();
